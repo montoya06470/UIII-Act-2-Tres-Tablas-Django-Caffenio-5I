@@ -1,12 +1,14 @@
-Perfecto — te doy **todo** paso a paso y con el código listo. Lo haré en el mismo orden que pediste, muy específico, con comandos, archivos y fragmentos de código listos para copiar/pegar. Asumo un entorno típico (Windows y también incluyo la variante para macOS / Linux cuando aplica). No uso `forms.py` (tal como pediste) — las vistas usan `request.POST`. Tampoco validamos entradas (punto 28). Vamos allá.
+Perfecto — te doy **todo** resuelto paso a paso, exactamente como pide la actividad. Voy a seguir el orden numérico que diste y te entrego los comandos, el código (views, urls, templates, admin) y las instrucciones para que el proyecto quede totalmente funcional usando **Python + Django** en **VS Code**, y el servidor en **puerto 8030**. Incluyo las variantes para Windows y para macOS/Linux donde hace falta (activa la que corresponda a tu SO).
 
-# 1 — Crear carpeta del proyecto
+---
 
-Abre el explorador y crea la carpeta (o por terminal):
+# 1 → Crear la carpeta del proyecto
 
-Windows / PowerShell:
+En la ubicación donde quieras trabajar (ej. `C:\Users\TuUsuario\Documentos\` o `~/Proyectos/`):
 
-```powershell
+Windows (PowerShell / CMD):
+
+```bash
 mkdir UIII_Caffenio_0647
 cd UIII_Caffenio_0647
 ```
@@ -14,36 +16,37 @@ cd UIII_Caffenio_0647
 macOS / Linux:
 
 ```bash
-mkdir UIII_Caffenio_0647
-cd UIII_Caffenio_0647
+mkdir -p ~/Proyectos/UIII_Caffenio_0647
+cd ~/Proyectos/UIII_Caffenio_0647
 ```
 
-# 2 — Abrir VS Code sobre la carpeta UIII_Caffenio_0647
+---
 
-Desde terminal (mientras estás dentro de la carpeta):
+# 2 → Abrir VS Code sobre la carpeta
 
-Windows:
-
-```powershell
-code .
-```
-
-macOS / Linux:
+Desde la terminal estando dentro de `UIII_Caffenio_0647`:
 
 ```bash
 code .
 ```
 
-(O abre VS Code y usa *File → Open Folder...* → selecciona `UIII_Caffenio_0647`.)
+(Esto abre VS Code en la carpeta actual.)
 
-# 3 — Abrir terminal en VS Code
+Si `code` no funciona: abre VS Code y usa *File → Open Folder…* y selecciona `UIII_Caffenio_0647`.
 
-En VS Code: menú `Terminal` → `New Terminal`.
-También atajo: `Ctrl+ñ` (o `Ctrl+` ```) según tu teclado.
+---
 
-# 4 — Crear carpeta entorno virtual `.venv` desde terminal de VS Code
+# 3 → Abrir terminal en VS Code
 
-Dentro de `UIII_Caffenio_0647` crea `.venv`:
+En VS Code: menú `Terminal → New Terminal` (o atajo `Ctrl+ñ` / `Ctrl+` `(según tu teclado) o`Ctrl+Shift+` `).
+
+La terminal se abrirá en la ruta del workspace (UIII_Caffenio_0647).
+
+---
+
+# 4 → Crear carpeta de entorno virtual `.venv` desde la terminal de VS Code
+
+Desde la terminal en la carpeta del proyecto:
 
 Windows (PowerShell):
 
@@ -57,85 +60,96 @@ macOS / Linux:
 python3 -m venv .venv
 ```
 
-Esto creará la carpeta `.venv` en el proyecto.
+Esto crea la carpeta oculta `.venv` dentro del proyecto.
 
-# 5 — Activar el entorno virtual
+---
 
-**Windows (PowerShell)**:
+# 5 → Activar el entorno virtual
+
+Windows (PowerShell):
 
 ```powershell
 .venv\Scripts\Activate.ps1
+# si te dice ejecución de scripts bloqueada, usa:
+# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-Si da error de ejecución de scripts, ejecuta en PowerShell (como administrador) `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` antes una sola vez, luego activa.
-
-**Windows (cmd.exe)**:
+Windows (CMD):
 
 ```cmd
 .venv\Scripts\activate
 ```
 
-**macOS / Linux**:
+macOS / Linux:
 
 ```bash
 source .venv/bin/activate
 ```
 
-Verifica con:
+Verás el prompt con `(.venv)` al inicio cuando esté activo.
 
-```bash
-python --version
-pip --version
-```
+---
 
-# 6 — Activar intérprete de Python en VS Code
+# 6 → Activar intérprete de Python en VS Code
 
-1. Abre la paleta: `Ctrl+Shift+P`.
+1. En VS Code presiona `Ctrl+Shift+P`.
 2. Escribe `Python: Select Interpreter`.
-3. Elige el intérprete que apunta a `.../UIII_Caffenio_0647/.venv/...` (aparecerá como `.venv`).
-4. VS Code ahora usará ese virtual env para ejecuciones y el debugger.
+3. Selecciona el intérprete dentro de `UIII_Caffenio_0647/.venv/...` (aparecerá como `.venv`).
 
-# 7 — Instalar Django
+Con eso, VS Code usará el Python del entorno virtual.
+
+---
+
+# 7 → Instalar Django
 
 Con el entorno activado:
 
 ```bash
-pip install --upgrade pip
 pip install django
 ```
 
-(Esto instala la última versión estable. Si quieres una versión concreta: `pip install django==4.2.10` por ejemplo.)
+(Verifica instalación: `python -m django --version` o `django-admin --version`).
 
-# 8 — Crear proyecto `backend_Caffenio` sin duplicar carpeta
+---
 
-Para evitar crear una carpeta extra dentro de `UIII_Caffenio_0647`, ejecuta **dentro** de `UIII_Caffenio_0647`:
+# 8 → Crear proyecto `backend_Caffenio` sin duplicar carpeta
+
+Para evitar crear una carpeta nested, ejecutar *desde dentro de* `UIII_Caffenio_0647`:
 
 ```bash
 django-admin startproject backend_Caffenio .
 ```
 
-> Nota: el `.` final hace que los archivos de `backend_Caffenio` (manage.py, carpeta backend_Caffenio) se creen **en la carpeta actual** y no genere una carpeta anidada extra.
+Nota: el punto al final crea el proyecto directamente en el directorio actual (sin carpeta extra). Si ya existe `manage.py` no corras esto de nuevo (evita duplicados).
 
-Resultado esperado (estructura básica):
+Estructura esperada ahora:
 
 ```
 UIII_Caffenio_0647/
-├─ .venv/
-├─ manage.py
-├─ backend_Caffenio/    # contiene settings.py, urls.py, wsgi.py, asgi.py
+  manage.py
+  backend_Caffenio/
+    __init__.py
+    settings.py
+    urls.py
+    wsgi.py
+    asgi.py
 ```
 
-# 9 — Ejecutar servidor en el puerto 8030
+---
 
-Dentro del virtual env y en la raíz (donde está `manage.py`):
+# 9 → Ejecutar servidor en el puerto 8030
+
+Con el entorno virtual activado y desde la raíz del proyecto (donde está `manage.py`):
 
 ```bash
 python manage.py runserver 8030
 ```
 
-(Esto inicia en `http://127.0.0.1:8030/`)
+Números concretos: `127.0.0.1:8030` o `http://localhost:8030/`.
 
-# 10 — Copiar y pegar el link en el navegador
+---
+
+# 10 → Copiar y pegar el link en el navegador
 
 Abre tu navegador y pega:
 
@@ -143,9 +157,11 @@ Abre tu navegador y pega:
 http://127.0.0.1:8030/
 ```
 
-Si estás en la misma máquina, también funciona `http://localhost:8030/`.
+Deberías ver la página inicial de Django (“The install worked successfully...”) si aún no creaste vistas.
 
-# 11 — Crear aplicación `app_Caffenio`
+---
+
+# 11 → Crear aplicación `app_Caffenio`
 
 Desde la raíz del proyecto:
 
@@ -153,31 +169,28 @@ Desde la raíz del proyecto:
 python manage.py startapp app_Caffenio
 ```
 
-Estructura ahora:
+Estructura básica creada:
 
 ```
-UIII_Caffenio_0647/
-├─ app_Caffenio/
-│  ├─ migrations/
-│  ├─ templates/
-│  ├─ admin.py
-│  ├─ apps.py
-│  ├─ models.py
-│  ├─ views.py
-│  ├─ urls.py  (lo crearemos)
+app_Caffenio/
+  migrations/
+  __init__.py
+  admin.py
+  apps.py
+  models.py
+  tests.py
+  views.py
 ```
 
-# 12 — models.py (tú lo proporcionaste)
+---
 
-Copia exactamente el bloque que diste dentro de `app_Caffenio/models.py`. Te lo dejo con ligera limpieza (ya listo para pegar):
+# 12 → Aquí el `models.py`
+
+Tú ya pusiste el modelo; te lo dejo con un par de mejoras menores (importantes: conserva exactamente los campos que pediste). Reemplaza `app_Caffenio/models.py` con esto:
 
 ```python
-# app_Caffenio/models.py
 from django.db import models
 
-# ==========================================
-# TABLA: PROVEEDORES (7 CAMPOS)
-# ==========================================
 class Proveedor(models.Model):
     nombre = models.CharField(max_length=100)
     empresa = models.CharField(max_length=100)
@@ -198,9 +211,6 @@ class Proveedor(models.Model):
         return f"{self.nombre} - {self.empresa}"
 
 
-# ==========================================
-# TABLA: PRODUCTO (7 CAMPOS)
-# ==========================================
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -216,7 +226,9 @@ class Producto(models.Model):
         ]
     )
     proveedor = models.ForeignKey(
-        Proveedor, on_delete=models.CASCADE, related_name='productos'
+        Proveedor,
+        on_delete=models.CASCADE,
+        related_name='productos'
     )
     sucursal = models.CharField(
         max_length=50,
@@ -230,9 +242,6 @@ class Producto(models.Model):
         return self.nombre
 
 
-# ==========================================
-# TABLA: VENTAS (7 CAMPOS)
-# ==========================================
 class Venta(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     cliente = models.CharField(max_length=100)
@@ -253,89 +262,98 @@ class Venta(models.Model):
         ]
     )
     empleado = models.CharField(max_length=100)
-    productos = models.ManyToManyField(Producto, related_name='ventas')
+    productos = models.ManyToManyField(
+        Producto,
+        related_name='ventas'
+    )
 
     def __str__(self):
         return f"Venta {self.id} - {self.cliente}"
 ```
 
-# 12.5 — Procedimiento para realizar migraciones (`makemigrations` y `migrate`)
+(Has pedido dejar Producto y Venta pendientes: vamos a registrar los modelos en admin pero solo trabajarás con `Proveedor` por ahora.)
 
-1. Añade la app a `INSTALLED_APPS` (ver paso 25).
-2. Ejecuta:
+---
+
+# 12.5 → Procedimiento para realizar migraciones (`makemigrations` y `migrate`)
+
+Primero, agrega la app al `settings.py` (paso 25 abajo). Luego:
 
 ```bash
-# crea archivos de migración para cambios en modelos
 python manage.py makemigrations
-
-# aplica las migraciones a la base de datos (SQLite por defecto)
 python manage.py migrate
 ```
 
-Si agregas solo `Proveedor` por ahora, puedes hacer:
+Si agregas modelos nuevos después, vuelve a correr `makemigrations` y `migrate`.
 
-```bash
-python manage.py makemigrations app_Caffenio
-python manage.py migrate
-```
+---
 
-# 13 — Primero trabajamos con el MODELO: PROVEEDOR
+# 13 → Primero trabajar con el MODELO: PROVEEDOR
 
-A partir de ahora implementaremos CRUD solo para `Proveedor`. Dejamos `Producto` y `Venta` pendiente.
+Entendido: el CRUD lo hacemos para `Proveedor` y dejamos Product/Ventas para después.
 
-# 14 — Vistas en `app_Caffenio/views.py`
+---
 
-Copia/pega este código a `app_Caffenio/views.py`. Usa `render`, `redirect` y `get_object_or_404`. NO usamos `forms.py`, usamos `request.POST`.
+# 14 → Views en `app_Caffenio/views.py` (funciones para CRUD de Proveedor)
+
+Voy a darte vistas *sin* `forms.py`, usando `request.POST` y redirecciones. Copia esto en `app_Caffenio/views.py`:
 
 ```python
-# app_Caffenio/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Proveedor
 
 def inicio_caffenio(request):
-    return render(request, 'inicio.html', {})
+    return render(request, 'inicio.html')
 
-# Mostrar formulario para agregar proveedor
+# Agregar proveedor
 def agregar_proveedor(request):
     if request.method == 'POST':
+        nombre = request.POST.get('nombre', '')
+        empresa = request.POST.get('empresa', '')
+        telefono = request.POST.get('telefono', '')
+        correo = request.POST.get('correo', '')
+        direccion = request.POST.get('direccion', '')
+        pais = request.POST.get('pais', '')
+        tipo_producto = request.POST.get('tipo_producto', '')
+
         Proveedor.objects.create(
-            nombre=request.POST.get('nombre', ''),
-            empresa=request.POST.get('empresa', ''),
-            telefono=request.POST.get('telefono', ''),
-            correo=request.POST.get('correo', ''),
-            direccion=request.POST.get('direccion', ''),
-            pais=request.POST.get('pais', ''),
-            tipo_producto=request.POST.get('tipo_producto', '')
+            nombre=nombre,
+            empresa=empresa,
+            telefono=telefono,
+            correo=correo,
+            direccion=direccion,
+            pais=pais,
+            tipo_producto=tipo_producto
         )
         return redirect('ver_proveedores')
-    return render(request, 'proveedor/agregar_proveedor.html', {})
+    return render(request, 'proveedor/agregar_proveedor.html')
 
-# Mostrar lista de proveedores
+# Ver proveedores (lista)
 def ver_proveedores(request):
     proveedores = Proveedor.objects.all()
     return render(request, 'proveedor/ver_proveedores.html', {'proveedores': proveedores})
 
-# Mostrar formulario con datos para actualizar (GET)
+# Página para mostrar formulario de actualización
 def actualizar_proveedor(request, proveedor_id):
     proveedor = get_object_or_404(Proveedor, id=proveedor_id)
     return render(request, 'proveedor/actualizar_proveedor.html', {'proveedor': proveedor})
 
-# Procesar la actualización (POST)
+# Procesar la actualización
 def realizar_actualizacion_proveedor(request, proveedor_id):
     proveedor = get_object_or_404(Proveedor, id=proveedor_id)
     if request.method == 'POST':
-        proveedor.nombre = request.POST.get('nombre', '')
-        proveedor.empresa = request.POST.get('empresa', '')
-        proveedor.telefono = request.POST.get('telefono', '')
-        proveedor.correo = request.POST.get('correo', '')
-        proveedor.direccion = request.POST.get('direccion', '')
-        proveedor.pais = request.POST.get('pais', '')
-        proveedor.tipo_producto = request.POST.get('tipo_producto', '')
+        proveedor.nombre = request.POST.get('nombre', proveedor.nombre)
+        proveedor.empresa = request.POST.get('empresa', proveedor.empresa)
+        proveedor.telefono = request.POST.get('telefono', proveedor.telefono)
+        proveedor.correo = request.POST.get('correo', proveedor.correo)
+        proveedor.direccion = request.POST.get('direccion', proveedor.direccion)
+        proveedor.pais = request.POST.get('pais', proveedor.pais)
+        proveedor.tipo_producto = request.POST.get('tipo_producto', proveedor.tipo_producto)
         proveedor.save()
         return redirect('ver_proveedores')
-    return redirect('actualizar_proveedor', proveedor_id=proveedor_id)
+    return redirect('actualizar_proveedor', proveedor_id=proveedor.id)
 
-# Borrar proveedor (confirmación GET → muestra página; POST → borra)
+# Borrar proveedor (confirmación)
 def borrar_proveedor(request, proveedor_id):
     proveedor = get_object_or_404(Proveedor, id=proveedor_id)
     if request.method == 'POST':
@@ -344,26 +362,45 @@ def borrar_proveedor(request, proveedor_id):
     return render(request, 'proveedor/borrar_proveedor.html', {'proveedor': proveedor})
 ```
 
-# 15 — Crear carpeta `templates` dentro de `app_Caffenio`
+Nombres de URL que usaré:
 
-En `app_Caffenio/` crea:
+* `inicio` o `inicio_caffenio` → `'inicio'`
+* `agregar_proveedor` → `'agregar_proveedor'`
+* `ver_proveedores` → `'ver_proveedores'`
+* `actualizar_proveedor` → `'actualizar_proveedor'`
+* `realizar_actualizacion_proveedor` → `'realizar_actualizacion_proveedor'`
+* `borrar_proveedor` → `'borrar_proveedor'`
+
+---
+
+# 15 → Crear carpeta `templates` dentro de `app_Caffenio`
+
+Estructura:
 
 ```
 app_Caffenio/
-└─ templates/
-   └─ proveedor/   (más abajo)
-   ├─ base.html
-   ├─ header.html
-   ├─ navbar.html
-   ├─ footer.html
-   └─ inicio.html
+  templates/
+    base.html
+    header.html
+    navbar.html
+    footer.html
+    inicio.html
+    proveedor/
+      agregar_proveedor.html
+      ver_proveedores.html
+      actualizar_proveedor.html
+      borrar_proveedor.html
 ```
 
-# 16 — Crear los archivos HTML (base, header, navbar, footer, inicio)
+Crea esa carpeta y subcarpeta `proveedor`.
 
-Los pongo listos para pegar.
+---
 
-`app_Caffenio/templates/base.html`
+# 16 → Crear archivos HTML (base, header, navbar, footer, inicio)
+
+Te doy plantillas simples y modernas (Bootstrap). Recuerda: **no validar entrada de datos** según instrucciones.
+
+## `app_Caffenio/templates/base.html`
 
 ```html
 <!doctype html>
@@ -371,160 +408,213 @@ Los pongo listos para pegar.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Caffenio - Sistema</title>
-  <!-- Bootstrap (CDN) -->
+  <title>{% block title %}Caffenio{% endblock %}</title>
+
+  <!-- Bootstrap CSS (cdn) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Colores suaves, modernos */
+    :root{
+      --primary: #a22245;
+      --secondary: #792D42;
+      --bg-soft: #f6f4f6;
+      --card-bg: #ffffff;
+    }
+    body { background: var(--bg-soft); }
+    .navbar-brand { font-weight: 700; color: var(--primary) !important; }
+    footer { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 0.5rem 1rem; box-shadow: 0 -1px 4px rgba(0,0,0,0.08);}
+    .container-main { padding-bottom: 4rem; } /* espacio para footer */
+  </style>
+  {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-light">
-  {% include 'header.html' %}
+<body>
   {% include 'navbar.html' %}
-  <main class="container my-4">
+  <div class="container container-main mt-4">
     {% block content %}{% endblock %}
-  </main>
+  </div>
+
   {% include 'footer.html' %}
 
+  <!-- Bootstrap JS (cdn) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_js %}{% endblock %}
 </body>
 </html>
 ```
 
-`app_Caffenio/templates/header.html`
+## `app_Caffenio/templates/navbar.html`
 
 ```html
-<header class="bg-white shadow-sm">
-  <div class="container py-3 d-flex align-items-center">
-    <h1 class="h4 m-0">Caffenio — <small class="text-muted">Sistema de Administración</small></h1>
-  </div>
-</header>
-```
-
-`app_Caffenio/templates/navbar.html`
-
-```html
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-  <div class="container">
-    <a class="navbar-brand" href="{% url 'inicio' %}">
-      <span class="fw-bold">Sistema de Administración Caffenio</span>
-    </a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'inicio' %}">Sistema de Administración Caffenio</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Inicio</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'inicio' %}">Panel</a></li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'inicio' %}"><i class="bi bi-house"></i> Inicio</a>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Proveedores</a>
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> <i class="bi bi-people"></i> Proveedores</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'agregar_proveedor' %}">Agregar Proveedor</a></li>
             <li><a class="dropdown-item" href="{% url 'ver_proveedores' %}">Ver Proveedores</a></li>
+            <li><a class="dropdown-item" href="#">Actualizar Proveedor</a></li>
+            <li><a class="dropdown-item" href="#">Borrar Proveedor</a></li>
           </ul>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Productos</a>
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> <i class="bi bi-box-seam"></i> Productos</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Agregar productos</a></li>
             <li><a class="dropdown-item" href="#">Ver productos</a></li>
+            <li><a class="dropdown-item" href="#">Actualizar productos</a></li>
+            <li><a class="dropdown-item" href="#">Borrar productos</a></li>
           </ul>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Ventas</a>
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> <i class="bi bi-cash-stack"></i> Ventas</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Agregar ventas</a></li>
             <li><a class="dropdown-item" href="#">Ver ventas</a></li>
+            <li><a class="dropdown-item" href="#">Actualizar ventas</a></li>
+            <li><a class="dropdown-item" href="#">Borrar ventas</a></li>
           </ul>
         </li>
-
       </ul>
     </div>
   </div>
 </nav>
+
+<!-- Iconos Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 ```
 
-> En el `navbar.html` incluí los títulos principales con *dropdowns* (los iconos los puedes añadir con `<i>` si usas FontAwesome; no los incluí para mantenerlo simple y que funcione sin dependencias extra).
+> Nota: incluí iconos **solo** en las opciones principales (no en submenú), como pediste.
 
-`app_Caffenio/templates/footer.html`
+## `app_Caffenio/templates/footer.html`
 
 ```html
-<footer class="bg-white border-top mt-5 fixed-bottom">
-  <div class="container py-2 d-flex justify-content-between">
-    <div>© {{ now|date:"Y" }} Caffenio. Todos los derechos reservados.</div>
+<footer class="text-center">
+  <div class="container d-flex justify-content-between">
+    <div>© {{ now.year }} Caffenio</div>
     <div>Creado por Andrea Montoya, Cbtis 128</div>
   </div>
 </footer>
 ```
 
-> Para que `now` funcione, en la vista `inicio_caffenio` o en el context processor podrías pasar la fecha; pero Django tiene el tag `now` si lo necesitas. Para simplicidad, si no quieres context processors, reemplaza `{{ now|date:"Y" }}` por un año fijo o genera en la vista.
+(Django template variable `now` se puede pasar desde la vista `inicio_caffenio` o usar `django.template.context_processors.request` + `now`—pero para simplicidad, en `inicio_caffenio` pasaré la fecha.)
 
-`app_Caffenio/templates/inicio.html`
+## `app_Caffenio/templates/header.html`
+
+(No es estrictamente necesario si ya tienes navbar; deja archivo si quieres fragmentos. Lo omitimos en las includes para simplicidad.)
+
+## `app_Caffenio/templates/inicio.html`
 
 ```html
 {% extends "base.html" %}
+
+{% block title %}Inicio - Caffenio{% endblock %}
+
 {% block content %}
-  <div class="row">
-    <div class="col-md-8">
-      <h2>Bienvenido al Sistema Caffenio</h2>
-      <p>Este sistema administra proveedores, productos y ventas.</p>
-    </div>
-    <div class="col-md-4">
-      <img src="https://bieninformado.mx/wp-content/uploads/2021/12/Caffenio-1.jpg"
-           alt="Caffenio" class="img-fluid rounded">
-    </div>
+<div class="row">
+  <div class="col-md-6">
+    <h1>Bienvenido a Caffenio</h1>
+    <p>Sistema de administración para proveedores, productos y ventas.</p>
   </div>
+  <div class="col-md-6">
+    <img src="https://cdn.forbes.com.mx/2019/04/Caffenio-1.jpg" alt="Caffenio" class="img-fluid rounded">
+  </div>
+</div>
 {% endblock %}
 ```
 
-> He extraído un enlace directo a la imagen (del link que diste). Si prefieres usar exactamente la URL que pegaste en la petición, pégala en `src`. El enlace directo que usé viene del artículo indicado.
+> Importante: en la vista `inicio_caffenio` pondremos `{'now': datetime.now()}` para que el footer muestre año.
 
-# 21 — Crear subcarpeta `proveedor` dentro de `app_Caffenio/templates`
+---
 
-Crea `app_Caffenio/templates/proveedor/` y dentro coloca las vistas HTML que vienen a continuación.
+# 17 → Agregar Bootstrap para CSS y JS en `base.html`
 
-# 22 — Archivos HTML para proveedores
+Ya incluí los CDN de Bootstrap CSS y JS en `base.html` (ver arriba). También incluí `bootstrap-icons` en `navbar.html`.
 
-`app_Caffenio/templates/proveedor/agregar_proveedor.html`
+---
+
+# 18 → `navbar.html` opciones y submenus con iconos
+
+Ya implementado arriba: opciones principales con iconos (`bi bi-people`, `bi bi-box-seam`, `bi bi-cash-stack`) y submenús sin iconos. Cumple tu requisito.
+
+---
+
+# 19 → `footer.html` con derechos de autor, fecha y “Creado por Andrea Montoya, Cbtis 128”, fija al final
+
+Ya implementado en `footer.html`. Para que muestre la fecha actual, modifica `inicio_caffenio` para enviar `now`.
+
+En `app_Caffenio/views.py` cambia `inicio_caffenio` a:
+
+```python
+from datetime import datetime
+
+def inicio_caffenio(request):
+    return render(request, 'inicio.html', {'now': datetime.now()})
+```
+
+---
+
+# 20 → `inicio.html` usa la imagen con el link dado
+
+Ya la añadí: `https://cdn.forbes.com.mx/2019/04/Caffenio-1.jpg`.
+
+---
+
+# 21 → Crear subcarpeta `proveedor` dentro de `templates`
+
+La estructura ya indicada incluye `templates/proveedor/`. Crea esa carpeta y guarda las vistas HTML allí.
+
+---
+
+# 22 → Archivos HTML para proveedores
+
+## `templates/proveedor/agregar_proveedor.html`
 
 ```html
 {% extends "base.html" %}
+{% block title %}Agregar Proveedor{% endblock %}
 {% block content %}
-<h3>Agregar Proveedor</h3>
+<h2>Agregar Proveedor</h2>
 <form method="post">
   {% csrf_token %}
-  <div class="mb-2">
-    <label class="form-label">Nombre</label>
-    <input name="nombre" class="form-control">
+  <div class="mb-3">
+    <label>Nombre</label>
+    <input class="form-control" name="nombre">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Empresa</label>
-    <input name="empresa" class="form-control">
+  <div class="mb-3">
+    <label>Empresa</label>
+    <input class="form-control" name="empresa">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Teléfono</label>
-    <input name="telefono" class="form-control">
+  <div class="mb-3">
+    <label>Teléfono</label>
+    <input class="form-control" name="telefono">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Correo</label>
-    <input name="correo" class="form-control" type="email">
+  <div class="mb-3">
+    <label>Correo</label>
+    <input class="form-control" name="correo" type="email">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Dirección</label>
-    <input name="direccion" class="form-control">
+  <div class="mb-3">
+    <label>Dirección</label>
+    <input class="form-control" name="direccion">
   </div>
-  <div class="mb-2">
-    <label class="form-label">País</label>
-    <input name="pais" class="form-control">
+  <div class="mb-3">
+    <label>País</label>
+    <input class="form-control" name="pais">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Tipo producto</label>
-    <select name="tipo_producto" class="form-select">
+  <div class="mb-3">
+    <label>Tipo de producto</label>
+    <select class="form-select" name="tipo_producto">
       <option value="bebidas">Bebidas</option>
       <option value="alimentos">Alimentos</option>
       <option value="complementos">Complementos</option>
@@ -535,16 +625,23 @@ Crea `app_Caffenio/templates/proveedor/` y dentro coloca las vistas HTML que vie
 {% endblock %}
 ```
 
-`app_Caffenio/templates/proveedor/ver_proveedores.html`
+## `templates/proveedor/ver_proveedores.html`
 
 ```html
 {% extends "base.html" %}
+{% block title %}Ver Proveedores{% endblock %}
 {% block content %}
-<h3>Proveedores</h3>
+<h2>Proveedores</h2>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Nombre</th><th>Empresa</th><th>Teléfono</th><th>Correo</th><th>Acciones</th>
+      <th>Nombre</th>
+      <th>Empresa</th>
+      <th>Teléfono</th>
+      <th>Correo</th>
+      <th>País</th>
+      <th>Tipo</th>
+      <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -554,57 +651,60 @@ Crea `app_Caffenio/templates/proveedor/` y dentro coloca las vistas HTML que vie
       <td>{{ p.empresa }}</td>
       <td>{{ p.telefono }}</td>
       <td>{{ p.correo }}</td>
+      <td>{{ p.pais }}</td>
+      <td>{{ p.get_tipo_producto_display }}</td>
       <td>
         <a class="btn btn-sm btn-info" href="{% url 'actualizar_proveedor' p.id %}">Editar</a>
-        <a class="btn btn-sm btn-danger" href="{% url 'borrar_proveedor' p.id %}">Borrar</a>
+        <a class="btn btn-sm btn-secondary" href="{% url 'borrar_proveedor' p.id %}">Borrar</a>
       </td>
     </tr>
     {% empty %}
-    <tr><td colspan="5">No hay proveedores.</td></tr>
+    <tr><td colspan="7">No hay proveedores registrados.</td></tr>
     {% endfor %}
   </tbody>
 </table>
 {% endblock %}
 ```
 
-`app_Caffenio/templates/proveedor/actualizar_proveedor.html`
+## `templates/proveedor/actualizar_proveedor.html`
 
 ```html
 {% extends "base.html" %}
+{% block title %}Actualizar Proveedor{% endblock %}
 {% block content %}
-<h3>Actualizar Proveedor</h3>
+<h2>Actualizar Proveedor</h2>
 <form method="post" action="{% url 'realizar_actualizacion_proveedor' proveedor.id %}">
   {% csrf_token %}
-  <div class="mb-2">
-    <label class="form-label">Nombre</label>
-    <input name="nombre" value="{{ proveedor.nombre }}" class="form-control">
+  <div class="mb-3">
+    <label>Nombre</label>
+    <input class="form-control" name="nombre" value="{{ proveedor.nombre }}">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Empresa</label>
-    <input name="empresa" value="{{ proveedor.empresa }}" class="form-control">
+  <div class="mb-3">
+    <label>Empresa</label>
+    <input class="form-control" name="empresa" value="{{ proveedor.empresa }}">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Teléfono</label>
-    <input name="telefono" value="{{ proveedor.telefono }}" class="form-control">
+  <div class="mb-3">
+    <label>Teléfono</label>
+    <input class="form-control" name="telefono" value="{{ proveedor.telefono }}">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Correo</label>
-    <input name="correo" value="{{ proveedor.correo }}" class="form-control" type="email">
+  <div class="mb-3">
+    <label>Correo</label>
+    <input class="form-control" name="correo" value="{{ proveedor.correo }}">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Dirección</label>
-    <input name="direccion" value="{{ proveedor.direccion }}" class="form-control">
+  <div class="mb-3">
+    <label>Dirección</label>
+    <input class="form-control" name="direccion" value="{{ proveedor.direccion }}">
   </div>
-  <div class="mb-2">
-    <label class="form-label">País</label>
-    <input name="pais" value="{{ proveedor.pais }}" class="form-control">
+  <div class="mb-3">
+    <label>País</label>
+    <input class="form-control" name="pais" value="{{ proveedor.pais }}">
   </div>
-  <div class="mb-2">
-    <label class="form-label">Tipo producto</label>
-    <select name="tipo_producto" class="form-select">
-      <option value="bebidas" {% if proveedor.tipo_producto == 'bebidas' %}selected{% endif %}>Bebidas</option>
-      <option value="alimentos" {% if proveedor.tipo_producto == 'alimentos' %}selected{% endif %}>Alimentos</option>
-      <option value="complementos" {% if proveedor.tipo_producto == 'complementos' %}selected{% endif %}>Complementos</option>
+  <div class="mb-3">
+    <label>Tipo de producto</label>
+    <select class="form-select" name="tipo_producto">
+      <option value="bebidas" {% if proveedor.tipo_producto == "bebidas" %}selected{% endif %}>Bebidas</option>
+      <option value="alimentos" {% if proveedor.tipo_producto == "alimentos" %}selected{% endif %}>Alimentos</option>
+      <option value="complementos" {% if proveedor.tipo_producto == "complementos" %}selected{% endif %}>Complementos</option>
     </select>
   </div>
   <button class="btn btn-primary" type="submit">Actualizar</button>
@@ -612,60 +712,68 @@ Crea `app_Caffenio/templates/proveedor/` y dentro coloca las vistas HTML que vie
 {% endblock %}
 ```
 
-`app_Caffenio/templates/proveedor/borrar_proveedor.html`
+## `templates/proveedor/borrar_proveedor.html`
 
 ```html
 {% extends "base.html" %}
+{% block title %}Borrar Proveedor{% endblock %}
 {% block content %}
-<h3>Eliminar Proveedor</h3>
-<p>¿Eliminar al proveedor <strong>{{ proveedor.nombre }}</strong> ({{ proveedor.empresa }})?</p>
+<h2>Eliminar proveedor</h2>
+<p>¿Seguro que deseas eliminar a <strong>{{ proveedor.nombre }}</strong> ({{ proveedor.empresa }})?</p>
 <form method="post">
   {% csrf_token %}
-  <button class="btn btn-danger" type="submit">Sí, eliminar</button>
   <a class="btn btn-secondary" href="{% url 'ver_proveedores' %}">Cancelar</a>
+  <button class="btn btn-danger" type="submit">Eliminar</button>
 </form>
 {% endblock %}
 ```
 
-# 23 — No utilizar `forms.py`
+---
 
-Todo lo anterior usa `request.POST` y CSRF token. No se crea `forms.py`.
+# 23 → No utilizar `forms.py`
 
-# 24 — Crear `urls.py` en `app_Caffenio` y código correspondiente
+Cumplido: las vistas usan `request.POST` y templates con inputs simples (sin `forms.py`).
 
-Crea `app_Caffenio/urls.py`:
+---
+
+# 24 → Crear `urls.py` en `app_Caffenio` y rutas CRUD
+
+Crea `app_Caffenio/urls.py` con:
 
 ```python
-# app_Caffenio/urls.py
 from django.urls import path
 from . import views
 
 urlpatterns = [
     path('', views.inicio_caffenio, name='inicio'),
-    # Proveedores
     path('proveedor/agregar/', views.agregar_proveedor, name='agregar_proveedor'),
-    path('proveedor/ver/', views.ver_proveedores, name='ver_proveedores'),
+    path('proveedor/', views.ver_proveedores, name='ver_proveedores'),
     path('proveedor/actualizar/<int:proveedor_id>/', views.actualizar_proveedor, name='actualizar_proveedor'),
-    path('proveedor/realizar_actualizacion/<int:proveedor_id>/', views.realizar_actualizacion_proveedor, name='realizar_actualizacion_proveedor'),
+    path('proveedor/actualizar/realizar/<int:proveedor_id>/', views.realizar_actualizacion_proveedor, name='realizar_actualizacion_proveedor'),
     path('proveedor/borrar/<int:proveedor_id>/', views.borrar_proveedor, name='borrar_proveedor'),
 ]
 ```
 
-# 25 — Agregar `app_Caffenio` en `settings.py` de `backend_Caffenio`
+---
 
-En `backend_Caffenio/settings.py`, añade en `INSTALLED_APPS`:
+# 25 → Agregar `app_Caffenio` en `settings.py` de `backend_Caffenio`
+
+Abre `backend_Caffenio/settings.py` y en `INSTALLED_APPS` agrega `'app_Caffenio',` y asegúrate de que `django.template.context_processors.request` esté en `TEMPLATES` → `OPTIONS` → `context_processors` (para seguridad y utilidades). Ejemplo:
 
 ```python
 INSTALLED_APPS = [
-    # ...
+    'django.contrib.admin',
+    'django.contrib.auth',
+    ...
     'app_Caffenio',
-    # u otras apps
 ]
 ```
 
-# 26 — Configurar `backend_Caffenio/urls.py` para enlazar con `app_Caffenio`
+---
 
-Abre `backend_Caffenio/urls.py` y modifica:
+# 26 → Configurar `urls.py` de `backend_Caffenio` para enlazar con `app_Caffenio`
+
+En `backend_Caffenio/urls.py`:
 
 ```python
 from django.contrib import admin
@@ -673,13 +781,15 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('app_Caffenio.urls')),   # todo lo de app_Caffenio en la raíz
+    path('', include('app_Caffenio.urls')),  # la app maneja la raíz
 ]
 ```
 
-# 27 — Registrar modelos en `admin.py` y volver a realizar migraciones
+---
 
-`app_Caffenio/admin.py`:
+# 27 → Registrar modelos en `admin.py` y volver a migrar
+
+En `app_Caffenio/admin.py`:
 
 ```python
 from django.contrib import admin
@@ -695,106 +805,110 @@ class ProductoAdmin(admin.ModelAdmin):
 
 @admin.register(Venta)
 class VentaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'cliente', 'total', 'metodo_pago', 'fecha')
+    list_display = ('id', 'fecha', 'cliente', 'total', 'metodo_pago', 'sucursal', 'empleado')
 ```
 
 Luego:
 
 ```bash
-python manage.py makemigrations app_Caffenio
+python manage.py makemigrations
 python manage.py migrate
 ```
 
-Si quieres crear superusuario para acceder al admin:
+Y crea superusuario para acceder a admin:
 
 ```bash
 python manage.py createsuperuser
-# sigue las instrucciones de email/usuario y contraseña
+# sigue los prompts (usuario, email, contraseña)
 ```
 
-# 27 (nota) — Por ahora solo trabajar con “Proveedor”
+---
 
-Aunque los modelos `Producto` y `Venta` están en `models.py`, nuestras vistas y plantillas solo manejan `Proveedor`. Dejamos producto y ventas para después.
+# 27 (bis) → Sólo trabajar con “Proveedor” por ahora
 
-# 28 — Estética: colores suaves, atractivos y modernos
+Aunque registramos Producto y Venta en admin, el CRUD público implementado es **solo para Proveedor**, como pediste. Producto/Venta quedan pendientes.
 
-En `base.html` usamos Bootstrap por defecto (puedes personalizar creando `static/css/styles.css` y cargándolo en `base.html`). Para mantenerlo sencillo, el diseño ya es sobrio y limpio (bg-light, cards, botones primarios). Si quieres, te doy un CSS adicional para *tonos morados suaves*.
+---
 
-Ejemplo CSS (guárdalo `app_Caffenio/static/css/styles.css` y enlázalo en `base.html`):
+# 28 → Estética: colores suaves y diseño sencillo
 
-```css
-body { font-family: "Times New Roman", serif; }
-.navbar, header, footer { background: linear-gradient(90deg, #f6f0fb, #efe6fb); }
-.btn-primary { background-color: #6f42c1; border-color: #6f42c1; }
-```
+En `base.html` definí variables CSS con tonos suaves y usé Bootstrap para UI limpia y responsive.
 
-(y en `base.html` pon `<link rel="stylesheet" href="{% static 'css/styles.css' %}">` y asegúrate de `{% load static %}` al inicio).
+---
 
-# 29 — Al inicio crear la estructura completa de carpetas y archivos
+# 29 → Al inicio crear la estructura completa de carpetas y archivos
 
-Resumen de estructura mínima que debes tener al final:
+Resumen de estructura que debes tener cuando termines:
 
 ```
 UIII_Caffenio_0647/
-├─ .venv/
-├─ manage.py
-├─ backend_Caffenio/
-│  ├─ __init__.py
-│  ├─ settings.py
-│  ├─ urls.py
-│  ├─ asgi.py
-│  └─ wsgi.py
-├─ app_Caffenio/
-│  ├─ migrations/
-│  ├─ templates/
-│  │  ├─ base.html
-│  │  ├─ header.html
-│  │  ├─ navbar.html
-│  │  ├─ footer.html
-│  │  ├─ inicio.html
-│  │  └─ proveedor/
-│  │     ├─ agregar_proveedor.html
-│  │     ├─ ver_proveedores.html
-│  │     ├─ actualizar_proveedor.html
-│  │     └─ borrar_proveedor.html
-│  ├─ admin.py
-│  ├─ apps.py
-│  ├─ models.py
-│  ├─ views.py
-│  └─ urls.py
-└─ db.sqlite3
+  .venv/
+  manage.py
+  backend_Caffenio/
+    settings.py
+    urls.py
+    ...
+  app_Caffenio/
+    migrations/
+    admin.py
+    apps.py
+    models.py
+    views.py
+    urls.py
+    templates/
+      base.html
+      navbar.html
+      footer.html
+      inicio.html
+      proveedor/
+        agregar_proveedor.html
+        ver_proveedores.html
+        actualizar_proveedor.html
+        borrar_proveedor.html
 ```
 
-# 30 — Proyecto totalmente funcional (con lo pedido)
+---
 
-Con los pasos anteriores tendrás un CRUD funcional para `Proveedor`: agregar, ver, actualizar, borrar; admin registrado; plantillas con Bootstrap; servidor en el puerto 8030.
+# 30 → Proyecto totalmente funcional
 
-# 31 — Finalmente ejecutar servidor en el puerto 8030
+Pasos finales para comprobar que todo funciona:
 
-Repetimos el comando final:
+1. Entorno activo (`.venv`).
+2. `INSTALLED_APPS` incluye `app_Caffenio`.
+3. Migraciones hechas (`makemigrations`, `migrate`).
+4. Ejecutar:
 
 ```bash
 python manage.py runserver 8030
 ```
 
-Visita en tu navegador: `http://127.0.0.1:8030/`
+5. Abre `http://127.0.0.1:8030/` → Verás la página de inicio.
+6. Navega a `Proveedores → Agregar Proveedor` para crear registros.
+7. Ve a `Proveedores → Ver Proveedores` para ver la tabla con botones Editar y Borrar.
+8. Admin: `http://127.0.0.1:8030/admin/` (usa superuser).
 
 ---
 
-## Notas finales, recomendaciones y pequeñas aclaraciones
+# 31 → Ejecutar servidor en puerto 8030 (final)
 
-* Si usas Windows PowerShell y falla la activación: intenta `.\.venv\Scripts\Activate.ps1` o `Set-ExecutionPolicy` como indiqué.
-* He incluido `csrf_token` en formularios (seguridad básica).
-* No hay validación de entradas (pediste no validar). Ten cuidado con datos inválidos en producción.
-* Si quieres iconos (navbar) puedo añadir Font Awesome y los `<i class="fa ...">` en las opciones principales.
-* Para mostrar la fecha actual en el footer con la etiqueta `now`, puedes en `inicio_caffenio` pasar `{'now': timezone.now()}` o usar `{% now "Y" %}` directamente en template si activas tags.
+Repite el comando final:
+
+```bash
+python manage.py runserver 8030
+```
+
+Y confirma en el navegador: `http://127.0.0.1:8030/`.
 
 ---
 
-Si quieres, continúo y:
+## Notas importantes y recomendaciones finales (para que no falles)
 
-* Te doy el CSS morado completo y el `static` setup (si quieres que se vea morado suave).
-* Te creo el archivo `settings.py` mínimo mostrado con configuración de `TEMPLATES` y `STATICFILES_DIRS`.
-* O te preparo el zip / scripts de inicialización (`requirements.txt`, `run.sh`/`run.bat`) listo para ejecutar.
+* **No validar entrada**: según tu requerimiento no añadí validaciones; ten en cuenta que en producción sí se deben validar campos.
+* Si al crear proyecto tu `manage.py` ya existía, **no vuelvas a** `startproject backend_Caffenio .` porque duplicarías.
+* Si ves error de *TemplateDoesNotExist*, revisa `TEMPLATES` en `settings.py` para que busque en `DIRS` o asegúrate que las plantillas estén en `app_Caffenio/templates/` y `APP_DIRS: True` en `settings.py`.
+* Si ves error al activar `.venv` en PowerShell: ejecuta `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` en PowerShell con permisos de admin (si tu escuela/PC lo permite).
+* Para que `footer.html` muestre el año, pasé `now` desde la vista `inicio_caffenio`.
 
-Dime cuál de esas tres quieres que haga ahora y lo preparo al instante.
+---
+
+¿Quieres que te entregue **los archivos listos** (por ejemplo un `.zip` o te pego todo en archivos separados para copiar/pegar)? Puedo prepararte el contenido listo para pegar en cada archivo. ¿Te los entrego así ahora?
